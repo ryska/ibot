@@ -1,7 +1,12 @@
 import bottle
 import beaker.middleware
+from collections import Counter
+import upload_pictures
+import pynstagram
 from bottle import route, redirect, post, run, request, hook
 from instagram import client, subscriptions
+
+#from upload_pictures
 
 bottle.debug(True)
 
@@ -37,7 +42,8 @@ reactor.register_callback(subscriptions.SubscriptionType.TAG, process_tag_update
 @route('/')
 def home():
     try:
-        url = unauthenticated_api.get_authorize_url(scope=["likes","comments"])
+        # zmienilem tutaj na public_content, to jest potrzebne do szukania po tagach
+        url = unauthenticated_api.get_authorize_url(scope=["public_content"])
         return '<a href="%s">Connect with Instagram</a>' % url
     except Exception as e:
         print(e)
@@ -47,10 +53,16 @@ def get_nav():
     nav_menu = ("<h1>Python Instagram</h1>"
                 "<ul>"
                     "<li><a href='/tag_search'>Tags</a> Search for tags, view tag info and get media by tag</li>"
+                    "<li><a href='/upload'>Upload</a> Upload pic</li>"
                 "</ul>"
                 )
     return nav_menu
 
+@route('/upload')
+def upload():
+    with pynstagram.client('urbanshot__', 'kluza1') as client:
+        client.upload('pic1.jpg', '#meow')
+    return "<p>Uploaded?</p>"
 
 @route('/oauth_callback')
 def on_callback():
@@ -71,19 +83,29 @@ def on_callback():
 @route('/tag_search')
 def tag_search():
     access_token = request.session['access_token']
+    familiar_tags = []          #lista tagow, ktore sa w opisach znalezionych zdjec
+    current_tag = "friends"     #tag, po ktorym odbywa sie wyszukiwanie
     content = "<h2>Tag Search</h2>"
     if not access_token:
         return 'Missing Access Token'
     try:
         api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
-        tag_search, next_tag = api.tag_search(q="friends")
+        tag_search, next_tag = api.tag_search(q=current_tag)
         tag_recent_media, next = api.tag_recent_media(tag_name=tag_search[0].name)
         photos = []
         for tag_media in tag_recent_media:
             photos.append('<img src="%s"/>' % tag_media.get_standard_resolution_url() )
             photos.append('</br>%s' % tag_media.caption.text )
-            photos.append('</br>%s' % get_tags(tag_media.caption.text))
+
+            #petla wyszukujaca w opisie tagow i dodajaca je do listy
+            for tag in get_tags(tag_media.caption.text):
+                familiar_tags.append(tag)
+
+        #Counter - funkcja zaimportowana z collections; tworzy krotki (element_listy, liczba_wystapien)
+        familiar_tags = Counter(familiar_tags).most_common()
         content += ''.join(photos)
+        content += "</br></br>Current tag: %s" % current_tag
+        content += "</br>%s" % familiar_tags
     except Exception as e:
         print(e)
     return "%s %s <br/>Remaining API Calls = %s/%s" % (get_nav(), content, api.x_ratelimit_remaining, api.x_ratelimit)
@@ -115,7 +137,7 @@ def get_tags(caption):
         if( item == '#' ):
             tag_found = True
 
-        elif( item != '#' and item != " " and tag_found == True):
+        elif( item != '#' and item != ' ' and tag_found == True):
             current_tag += item
 
         elif( item == ' ' and tag_found == True):
