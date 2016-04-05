@@ -1,8 +1,12 @@
 import bottle
 import beaker.middleware
 from collections import Counter
+import upload_pictures
+import pynstagram
 from bottle import route, redirect, post, run, request, hook
 from instagram import client, subscriptions
+
+#from upload_pictures
 
 bottle.debug(True)
 
@@ -49,10 +53,16 @@ def get_nav():
     nav_menu = ("<h1>Python Instagram</h1>"
                 "<ul>"
                     "<li><a href='/tag_search'>Tags</a> Search for tags, view tag info and get media by tag</li>"
+                    "<li><a href='/upload'>Upload</a> Upload pic</li>"
                 "</ul>"
                 )
     return nav_menu
 
+@route('/upload')
+def upload():
+    with pynstagram.client('urbanshot__', 'kluza1') as client:
+        client.upload('pic1.jpg', '#meow')
+    return "<p>Uploaded?</p>"
 
 @route('/oauth_callback')
 def on_callback():
