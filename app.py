@@ -14,8 +14,8 @@ session_opts = {
 app = beaker.middleware.SessionMiddleware(bottle.app(), session_opts)
 
 CONFIG = {
-    'client_id': '698489b6f62e4e17bf8cf50cfa879199',
-    'client_secret': '2769f83b19b247d0b4d17c991a6e82fa',
+    'client_id': '7da4a6bf233f41ccb5f3e9a444217951',
+    'client_secret': '512f10cd05524dce9a25a21d5fed181a',
     'redirect_uri': 'http://localhost:8515/oauth_callback'
 }
 
@@ -76,11 +76,13 @@ def tag_search():
         return 'Missing Access Token'
     try:
         api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
-        tag_search, next_tag = api.tag_search(q="vsco")
+        tag_search, next_tag = api.tag_search(q="friends")
         tag_recent_media, next = api.tag_recent_media(tag_name=tag_search[0].name)
         photos = []
         for tag_media in tag_recent_media:
-            photos.append('<img src="%s"/>' % tag_media.get_standard_resolution_url())
+            photos.append('<img src="%s"/>' % tag_media.get_standard_resolution_url() )
+            photos.append('</br>%s' % tag_media.caption.text )
+            photos.append('</br>%s' % get_tags(tag_media.caption.text))
         content += ''.join(photos)
     except Exception as e:
         print(e)
@@ -102,5 +104,28 @@ def on_realtime_callback():
             reactor.process(CONFIG['client_secret'], raw_response, x_hub_signature)
         except subscriptions.SubscriptionVerifyError:
             print("Signature mismatch")
+
+
+def get_tags(caption):
+    current_tag = ""
+    tag_list = []
+    tag_found = False
+
+    for item in caption:
+        if( item == '#' ):
+            tag_found = True
+
+        elif( item != '#' and item != " " and tag_found == True):
+            current_tag += item
+
+        elif( item == ' ' and tag_found == True):
+            tag_list.append(current_tag)
+            current_tag = ""
+            tag_found = False
+
+    if( current_tag != "" and tag_found == True ):
+        tag_list.append(current_tag)
+
+    return tag_list
 
 bottle.run(app=app, host='localhost', port=8515, reloader=True)
