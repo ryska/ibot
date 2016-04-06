@@ -52,8 +52,7 @@ def home():
 def get_nav():
     nav_menu = ("<h1>Python Instagram</h1>"
                 "<ul>"
-                    "<li><a href='/tag_search'>Tags</a> Search for tags, view tag info and get media by tag</li>"
-                    #"<li><a href='/upload'>Upload</a> Upload pic</li>"
+                "<li><a href='/tag_search'>Tags</a> Search for tags, view tag info and get media by tag</li>"
                 "</ul>"
                 )
     return nav_menu
@@ -84,7 +83,7 @@ def on_callback():
 def tag_search():
     access_token = request.session['access_token']
     familiar_tags = []          #lista tagow, ktore sa w opisach znalezionych zdjec
-    current_tag = "friends"     #tag, po ktorym odbywa sie wyszukiwanie
+    current_tag = "vsco"     #tag, po ktorym odbywa sie wyszukiwanie
     content = "<h2>Tag Search</h2>"
     if not access_token:
         return 'Missing Access Token'
