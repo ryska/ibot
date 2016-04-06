@@ -1,5 +1,7 @@
 import bottle
 import beaker.middleware
+import urllib
+import requests
 from collections import Counter
 import pynstagram
 from bottle import route, redirect, post, run, request, hook
@@ -41,7 +43,7 @@ reactor.register_callback(subscriptions.SubscriptionType.TAG, process_tag_update
 def home():
     try:
         # zmienilem tutaj na public_content, to jest potrzebne do szukania po tagach
-        url = unauthenticated_api.get_authorize_url(scope=["public_content"])
+        url = unauthenticated_api.get_authorize_url(scope=["public_content","comments","likes","follower_list","basic","relationships"])
         return '<a href="%s">Connect with Instagram</a>' % url
     except Exception as e:
         print(e)
@@ -51,17 +53,17 @@ def get_nav():
     nav_menu = ("<h1>Python Instagram</h1>"
                 "<ul>"
                     "<li><a href='/tag_search'>Tags</a> Search for tags, view tag info and get media by tag</li>"
-                    "<li><a href='/upload'>Upload</a> Upload pic</li>"
+                    #"<li><a href='/upload'>Upload</a> Upload pic</li>"
                 "</ul>"
                 )
     return nav_menu
 
 @route('/upload')
-def upload():
+def upload(list):
+    urllib.urlretrieve("https://source.unsplash.com/category/nature/900x900", "pic1.jpg")
     with pynstagram.client('urbanshot__', 'kluza1') as client:
-        client.upload('pic1.jpg', '#meow')
-        return "<p>Uploaded!</p>"
-upload()
+        client.upload('pic1.jpg', '#'+list[0][0]+' #'+list[1][0])
+    #return "<p>Uploaded!</p>"
 
 @route('/oauth_callback')
 def on_callback():
@@ -77,7 +79,6 @@ def on_callback():
     except Exception as e:
         print(e)
     return get_nav()
-
 
 @route('/tag_search')
 def tag_search():
@@ -105,6 +106,7 @@ def tag_search():
         content += ''.join(photos)
         content += "</br></br>Current tag: %s" % current_tag
         content += "</br>%s" % familiar_tags
+        upload(familiar_tags)
     except Exception as e:
         print(e)
     return "%s %s <br/>Remaining API Calls = %s/%s" % (get_nav(), content, api.x_ratelimit_remaining, api.x_ratelimit)
@@ -148,5 +150,8 @@ def get_tags(caption):
         tag_list.append(current_tag)
 
     return tag_list
+
+
+
 
 bottle.run(app=app, host='localhost', port=8515, reloader=True)
