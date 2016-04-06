@@ -1,12 +1,10 @@
 import bottle
 import beaker.middleware
 from collections import Counter
-import upload_pictures
 import pynstagram
 from bottle import route, redirect, post, run, request, hook
 from instagram import client, subscriptions
 
-#from upload_pictures
 
 bottle.debug(True)
 
@@ -62,7 +60,8 @@ def get_nav():
 def upload():
     with pynstagram.client('urbanshot__', 'kluza1') as client:
         client.upload('pic1.jpg', '#meow')
-    return "<p>Uploaded?</p>"
+        return "<p>Uploaded!</p>"
+upload()
 
 @route('/oauth_callback')
 def on_callback():
