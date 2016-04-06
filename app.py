@@ -6,6 +6,10 @@ from collections import Counter
 import pynstagram
 from bottle import route, redirect, post, run, request, hook
 from instagram import client, subscriptions
+from PIL import Image
+import sys
+import os
+
 
 
 bottle.debug(True)
@@ -38,6 +42,19 @@ def process_tag_update(update):
 reactor = subscriptions.SubscriptionsReactor()
 reactor.register_callback(subscriptions.SubscriptionType.TAG, process_tag_update)
 
+def cut_image():
+    img = Image.open("pic1.jpg")
+    half_width = img.size[0] / 2
+    half_height = img.size[1] / 2
+    img1 = img.crop(
+        (
+            half_width - 450,
+            half_height - 450,
+            half_width + 450,
+            half_height + 450
+        )
+    )
+    img1.save("pic1.jpg")
 
 @route('/')
 def home():
@@ -60,7 +77,8 @@ def get_nav():
 
 @route('/upload')
 def upload(list):
-    urllib.urlretrieve("https://source.unsplash.com/category/nature/900x900", "pic1.jpg")
+    urllib.urlretrieve("https://source.unsplash.com/category/buildings/1400x1200", "pic1.jpg")
+    cut_image()
     with pynstagram.client('urbanshot__', 'kluza1') as client:
         client.upload('pic1.jpg', '#'+list[0][0]+' #'+list[1][0])
     #return "<p>Uploaded!</p>"
@@ -83,8 +101,13 @@ def on_callback():
 @route('/tag_search')
 def tag_search():
     access_token = request.session['access_token']
-    familiar_tags = []          #lista tagow, ktore sa w opisach znalezionych zdjec
-    current_tag = "friends"     #tag, po ktorym odbywa sie wyszukiwanie
+    familiar_tags = ["l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l",
+                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
+                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
+                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
+                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",]
+    #[{"#like4like",100}, {"#likeme",100}, {"#followme",100}]          #lista tagow, ktore sa w opisach znalezionych zdjec
+    current_tag = "vsco"     #tag, po ktorym odbywa sie wyszukiwanie
     content = "<h2>Tag Search</h2>"
     if not access_token:
         return 'Missing Access Token'
@@ -137,9 +160,13 @@ def get_tags(caption):
     for item in caption:
         if( item == '#' ):
             tag_found = True
+            if (item == '#' and current_tag != ''):
+                tag_list.append(current_tag)
+                current_tag = ''
 
         elif( item != '#' and item != ' ' and tag_found == True):
             current_tag += item
+
 
         elif( item == ' ' and tag_found == True):
             tag_list.append(current_tag)
@@ -150,8 +177,6 @@ def get_tags(caption):
         tag_list.append(current_tag)
 
     return tag_list
-
-
 
 
 bottle.run(app=app, host='localhost', port=8515, reloader=True)
