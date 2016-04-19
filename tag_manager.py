@@ -11,7 +11,7 @@ from bottle import route, redirect, post, run, request, hook, template
 from instagram import client, subscriptions
 
 
-def search_tag():
+def tag_search():
     access_token = request.session['access_token']
     familiar_tags = ["l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l",
                      "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
@@ -41,7 +41,9 @@ def search_tag():
         content += ''.join(photos)
         content += "</br></br>Current tag: %s" % current_tag
         content += "</br>%s" % familiar_tags
-        upload(familiar_tags)
+
+        # upload(familiar_tags)
+        # return template('data')
     except Exception as e:
         print(e)
     return "%s %s <br/>Remaining API Calls = %s/%s" % (get_nav(), content, api.x_ratelimit_remaining, api.x_ratelimit)

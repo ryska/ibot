@@ -6,9 +6,7 @@
 </head>
 <body>
 <ul>
-  % for item in basket:
-    <li>{{item}}</li>
-  % end
+dghalierghrahg;heds
 </ul>
 </body>
 </html>
