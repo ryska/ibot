@@ -13,29 +13,8 @@ from bottle import route, redirect, post, run, request, hook, template
 from instagram import client, subscriptions
 
 
-#def search_tag():
-    # access_token = request.session['access_token']
-    # current_tag = "vsco"
-    #
-    # if not access_token:
-    #     return 'Missing Access Token'
-    # try:
-    #     api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
-    #     tag_search, next_tag = api.tag_search(q=current_tag)
-    #     tag_recent_media, next = api.tag_recent_media(tag_name=tag_search[0].name)
-    #     photos = []
-    #
-    #     for tag_media in tag_recent_media:
-    #         photos.append(tag_media.get_standard_resolution_url(), get_tags(tag_media.caption.text))
-    #
-    # except Exception as e:
-    #     print(e)
-    # return photos
-
 
 def search_tag():
-    
-
     page = urllib.request.urlopen('http://websta.me/hot')
     content = page.read()
     splitted_content = content.split('<a href="/tag/', 100)
@@ -45,7 +24,6 @@ def search_tag():
         splitted_tag = tag_cell.split('">#', 1)
         tag_lists.append(splitted_tag[0])
     return tag_lists
-
 
 
 def get_tags(caption):

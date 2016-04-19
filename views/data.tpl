@@ -9,12 +9,13 @@
 </head>
 <body>
 % include('navbar.tpl')
-<ul>
-   <ul>
-  % for item in tag_lists:
-    <li>{{item}}</li>
-  % end
-</ul>
-</ul>
+<div class="container data-container">
+    <p>Most popular hashtags on Instagram now:</p>
+       <ul class="hashtag-list">
+      % for item in tag_lists:
+        <li>#{{item}},</li>
+      % end
+       </ul>
+</div>
 </body>
 </html>

@@ -9,7 +9,6 @@ import pic_manager
 from pic_manager import cut_image, upload
 from tag_manager import search_tag
 from six.moves import urllib
-# from insta_manager import realtime_callback
 from bottle import route, redirect, get, post, run, request, hook, template, SimpleTemplate, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
@@ -59,9 +58,8 @@ def home():
 
 @route('/upload')
 def on_upload():
-    list = ["f4f", 'like4like']
-    upload(list)
-    return template('upload.html')
+    upload(search_tag)
+    return template('upload.tpl', tag_lists = search_tag())
 
 
 @route('/oauth_callback')
@@ -77,20 +75,11 @@ def on_callback():
         request.session['access_token'] = access_token
     except Exception as e:
         print(e)
-    return template('nav_menu')
+    return template('menu')
 
 @route('/tag_search')
 def on_tag_search():
-    page = urllib.request.urlopen('http://websta.me/hot')
-    content = page.read()
-    splitted_content = content.split('<a href="/tag/', 100)
-    tag_lists = []
-
-    for tag_cell in splitted_content[1:]:
-        splitted_tag = tag_cell.split('">#', 1)
-        tag_lists.append(splitted_tag[0])
-    # return tag_lists
-    return template('data', tag_lists=tag_lists)
+    return template('data', tag_lists=search_tag())
 
 @route('/realtime_callback')
 @post('/realtime_callback')
