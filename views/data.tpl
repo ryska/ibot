@@ -10,7 +10,7 @@
 <body>
 % include('navbar.tpl')
 <ul>
-    <a>shrth</a>
+    <a>{{ tag_lists }}</a>
 </ul>
 </body>
 </html>

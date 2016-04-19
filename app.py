@@ -80,8 +80,8 @@ def on_callback():
 
 @route('/tag_search')
 def on_tag_search():
-    search_tag()
-    return template('data')
+    # search_tag()
+    return template('data', search_tag())
 
 @route('/realtime_callback')
 @post('/realtime_callback')
