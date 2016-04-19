@@ -10,7 +10,11 @@
 <body>
 % include('navbar.tpl')
 <ul>
-    <a>{{ tag_lists }}</a>
+   <ul>
+  % for item in tag_lists:
+    <li>{{item}}</li>
+  % end
+</ul>
 </ul>
 </body>
 </html>

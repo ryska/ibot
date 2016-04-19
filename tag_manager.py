@@ -13,7 +13,7 @@ from bottle import route, redirect, post, run, request, hook, template
 from instagram import client, subscriptions
 
 
-def search_tag():
+#def search_tag():
     # access_token = request.session['access_token']
     # current_tag = "vsco"
     #
@@ -32,6 +32,10 @@ def search_tag():
     #     print(e)
     # return photos
 
+
+def search_tag():
+    
+
     page = urllib.request.urlopen('http://websta.me/hot')
     content = page.read()
     splitted_content = content.split('<a href="/tag/', 100)
@@ -41,6 +45,7 @@ def search_tag():
         splitted_tag = tag_cell.split('">#', 1)
         tag_lists.append(splitted_tag[0])
     return tag_lists
+
 
 
 def get_tags(caption):
@@ -68,6 +73,7 @@ def get_tags(caption):
         tag_list.append(current_tag)
 
     return ''.join(tag_list)
+
 
 # def get_nav():
 #     tag_url = '/tag_search'
