@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd580079-10a5-4fd1-98ab-ed196713b512" name="Default" comment="">
+    <list default="true" id="bd580079-10a5-4fd1-98ab-ed196713b512" name="Default" comment="from yesterday">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pic1.jpg" afterPath="$PROJECT_DIR$/pic1.jpg" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/test2.iml" afterPath="$PROJECT_DIR$/.idea/test2.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/session/container_file/5/50/50769cda6e1c4328ba13864a7e3890c5.cache" afterPath="$PROJECT_DIR$/session/container_file/5/50/50769cda6e1c4328ba13864a7e3890c5.cache" />
     </list>
     <ignored path="test2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -19,7 +19,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/instagram_bot1$app.coverage" NAME="app Coverage Results" MODIFIED="1459967630388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/instagram_bot1$app.coverage" NAME="app Coverage Results" MODIFIED="1459971821317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -33,10 +33,11 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="232">
-              <caret line="54" column="109" selection-start-line="54" selection-start-column="109" selection-end-line="54" selection-end-column="109" />
+            <state relative-caret-position="363">
+              <caret line="131" column="8" selection-start-line="131" selection-start-column="8" selection-end-line="131" selection-end-column="8" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
+                <element signature="e#2945#3371#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -52,6 +53,7 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -59,6 +61,7 @@
       <list>
         <option value="C:/Python27/Lib/site-packages/instagram/models.py" />
         <option value="$PROJECT_DIR$/upload_pictures.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app.py" />
       </list>
     </option>
@@ -69,10 +72,10 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="45" />
-    <option name="y" value="23" />
-    <option name="width" value="1235" />
-    <option name="height" value="754" />
+    <option name="x" value="-11" />
+    <option name="y" value="-11" />
+    <option name="width" value="1942" />
+    <option name="height" value="1042" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -100,12 +103,17 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="instagram_bot1" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="External Libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -134,12 +142,11 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
-    <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="settings.editor.splitter.proportion" value="0.2156476" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
@@ -152,9 +159,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="test2" />
@@ -384,6 +391,9 @@
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="bd580079-10a5-4fd1-98ab-ed196713b512" name="Default" comment="" />
@@ -406,35 +416,34 @@
       <option name="project" value="LOCAL" />
       <updated>1459887503190</updated>
     </task>
-    <task id="LOCAL-00003" summary="Merge branch 'master' of https://github.com/ziniewiczp/instagram_bot1&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;">
-      <created>1459940531983</created>
+    <task id="LOCAL-00003" summary="uploads pug">
+      <created>1459890422295</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1459940531983</updated>
+      <updated>1459890422295</updated>
     </task>
-    <task id="LOCAL-00004" summary="Merge branch 'master' of https://github.com/ziniewiczp/instagram_bot1&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;">
-      <created>1459974211059</created>
+    <task id="LOCAL-00004" summary="from yesterday">
+      <created>1459950889419</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1459974211059</updated>
+      <updated>1459950889419</updated>
     </task>
     <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="45" y="23" width="1235" height="754" extended-state="0" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15590948" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15104167" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329927" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2900302" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32993197" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28231293" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32993197" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -448,13 +457,25 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.gitignore" />
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="tried to upload pics" />
-    <MESSAGE value="Merge branch 'master' of https://github.com/ziniewiczp/instagram_bot1&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/ziniewiczp/instagram_bot1&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;" />
+    <MESSAGE value="uploads pug" />
+    <MESSAGE value="from yesterday" />
+    <option name="LAST_COMMIT_MESSAGE" value="from yesterday" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -463,10 +484,30 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2160">
+          <caret line="80" column="0" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#2945#3371#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#2945#3371#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -477,23 +518,47 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#2945#3371#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Python27/Lib/site-packages/instagram/models.py" />
-    <entry file="file://$PROJECT_DIR$/upload_pictures.py" />
+    <entry file="file://C:/Python27/Lib/site-packages/instagram/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="92" column="29" selection-start-line="92" selection-start-column="29" selection-end-line="92" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/pic1.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/upload_pictures.py" />
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="587">
+          <caret line="182" column="53" selection-start-line="182" selection-start-column="53" selection-end-line="182" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/python-skeletons/collections.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="232">
-          <caret line="54" column="109" selection-start-line="54" selection-start-column="109" selection-end-line="54" selection-end-column="109" />
+        <state relative-caret-position="363">
+          <caret line="131" column="8" selection-start-line="131" selection-start-column="8" selection-end-line="131" selection-end-column="8" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#2945#3371#0" expanded="false" />
           </folding>
         </state>
       </provider>
