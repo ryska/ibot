@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd580079-10a5-4fd1-98ab-ed196713b512" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/session/container_file/6/6d/6d365ad8da854bc3b89bfe3b0eb99310.cache" afterPath="$PROJECT_DIR$/session/container_file/6/6d/6d365ad8da854bc3b89bfe3b0eb99310.cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tag_manager.py" afterPath="$PROJECT_DIR$/tag_manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/data.tpl" afterPath="$PROJECT_DIR$/views/data.tpl" />
     </list>
     <ignored path="test2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,8 +64,8 @@
       <file leaf-file-name="tag_manager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tag_manager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="756">
-              <caret line="48" column="38" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
+            <state relative-caret-position="567">
+              <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -999,8 +995,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tag_manager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="48" column="38" selection-start-line="48" selection-start-column="38" selection-end-line="48" selection-end-column="38" />
+        <state relative-caret-position="567">
+          <caret line="21" column="37" selection-start-line="21" selection-start-column="37" selection-end-line="21" selection-end-column="37" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

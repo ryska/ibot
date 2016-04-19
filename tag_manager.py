@@ -11,16 +11,10 @@ from bottle import route, redirect, post, run, request, hook, template
 from instagram import client, subscriptions
 
 
-def tag_search():
+def search_tag():
     access_token = request.session['access_token']
-    familiar_tags = ["l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l","l4l",
-                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
-                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
-                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",
-                     "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l", "l4l",]
-    #[{"#like4like",100}, {"#likeme",100}, {"#followme",100}]          #lista tagow, ktore sa w opisach znalezionych zdjec
-    current_tag = "vsco"     #tag, po ktorym odbywa sie wyszukiwanie
-    content = "<h2>Tag Search</h2>"
+    current_tag = "vsco"
+
     if not access_token:
         return 'Missing Access Token'
     try:
@@ -28,25 +22,13 @@ def tag_search():
         tag_search, next_tag = api.tag_search(q=current_tag)
         tag_recent_media, next = api.tag_recent_media(tag_name=tag_search[0].name)
         photos = []
+
         for tag_media in tag_recent_media:
-            photos.append('<img src="%s"/>' % tag_media.get_standard_resolution_url() )
-            photos.append('</br>%s' % tag_media.caption.text )
+            photos.append(tag_media.get_standard_resolution_url(), get_tags(tag_media.caption.text))
 
-            #petla wyszukujaca w opisie tagow i dodajaca je do listy
-            for tag in get_tags(tag_media.caption.text):
-                familiar_tags.append(tag)
-
-        #Counter - funkcja zaimportowana z collections; tworzy krotki (element_listy, liczba_wystapien)
-        familiar_tags = Counter(familiar_tags).most_common()
-        content += ''.join(photos)
-        content += "</br></br>Current tag: %s" % current_tag
-        content += "</br>%s" % familiar_tags
-
-        # upload(familiar_tags)
-        # return template('data')
     except Exception as e:
         print(e)
-    return "%s %s <br/>Remaining API Calls = %s/%s" % (get_nav(), content, api.x_ratelimit_remaining, api.x_ratelimit)
+    return photos
 
 
 def get_tags(caption):
@@ -73,7 +55,7 @@ def get_tags(caption):
     if( current_tag != "" and tag_found == True ):
         tag_list.append(current_tag)
 
-    return tag_list
+    return ''.join(tag_list)
 
 def get_nav():
     tag_url = '/tag_search'
