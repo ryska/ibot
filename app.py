@@ -7,7 +7,7 @@ from collections import Counter
 import pynstagram
 import pic_manager
 from pic_manager import cut_image, upload
-from tag_manager import tag_search, get_nav
+from tag_manager import search_tag
 # from insta_manager import realtime_callback
 from bottle import route, redirect, get, post, run, request, hook, template, SimpleTemplate, static_file
 from instagram import client, subscriptions
@@ -58,7 +58,9 @@ def home():
 
 @route('/upload')
 def on_upload():
+    list = ["f4f", 'like4like']
     upload(list)
+    return template('upload.html')
 
 
 @route('/oauth_callback')
@@ -74,11 +76,12 @@ def on_callback():
         request.session['access_token'] = access_token
     except Exception as e:
         print(e)
-    return get_nav()
+    return template('nav_menu')
 
 @route('/tag_search')
 def on_tag_search():
-    tag_search()
+    search_tag()
+    return template('data')
 
 @route('/realtime_callback')
 @post('/realtime_callback')

@@ -1,5 +1,17 @@
-a{
-    padding: 15px;
-    color: #000;
-    text-decoration: none;
+.container{
+    text-align: center;
 }
+.start-btn{
+    margin-top: 50px;
+}
+.brand-logo{
+    margin-left: 20px;
+}
+/*.container a{*/
+    /*padding: 15px;*/
+    /*color: pink;*/
+    /*text-decoration: none;*/
+    /*border: 2px solid #000;*/
+    /*position: absolute;*/
+    /*top:50%;*/
+/*}*/

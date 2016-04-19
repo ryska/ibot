@@ -6,7 +6,7 @@ def upload(list):
     urllib.urlretrieve("https://source.unsplash.com/category/buildings/1400x1200", "pic1.jpg")
     cut_image()
     with pynstagram.client('urbanshot__', 'kluza1') as client:
-        client.upload('pic1.jpg', '#'+list[0][0]+' #'+list[1][0])
+        client.upload('pic1.jpg', '#'+list[0]+' #'+list[1])
     #return "<p>Uploaded!</p>"
 
 def cut_image():
