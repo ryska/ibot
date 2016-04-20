@@ -8,6 +8,7 @@ import pynstagram
 import pic_manager
 from pic_manager import cut_image, upload
 from tag_manager import search_tag
+from insta_manager import get_followed_by_count, get_follows_count, get_media_count
 from six.moves import urllib
 from bottle import route, redirect, get, post, run, request, hook, template, SimpleTemplate, static_file
 from instagram import client, subscriptions
@@ -46,10 +47,8 @@ def server_static(filepath):
 @route('/')
 def home():
     try:
-        # zmienilem tutaj na public_content, to jest potrzebne do szukania po tagach
         url = unauthenticated_api.get_authorize_url(scope=["public_content","comments","likes","follower_list","basic","relationships"])
         return template('index', url=url)
-        # return '<p>connect rhr fhsfgjnz</p>'
     except Exception as e:
         print(e)
 
@@ -79,7 +78,11 @@ def on_callback():
 
 @route('/tag_search')
 def on_tag_search():
-    return template('data', tag_lists=search_tag())
+    return template('data', tag_lists=search_tag(),
+                            posts= 21,#get_media_count(),
+                            following=  33,#get_follows_count(),
+                            followed= 3 #get_followed_by_count()
+                    )
 
 @route('/realtime_callback')
 @post('/realtime_callback')

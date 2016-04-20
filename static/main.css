@@ -23,8 +23,17 @@
 .menu-container p{
     padding: 40px;
 }
-.data-container p{
-    padding: 40px;
+.data-container .data-list p{
+    padding-top: 40px;
+    padding-bottom: 20px;
+}
+.data-container .data-sections{
+    width: 100%;
+    padding-top: 40px;
+}
+.data-sections table{
+    width: 400px;
+    margin-left: 20px;
 }
 /*.container a{*/
     /*padding: 15px;*/
