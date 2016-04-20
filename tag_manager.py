@@ -3,7 +3,7 @@ from six.moves import urllib
 
 
 def search_tag():
-    
+
     page = urllib.request.urlopen('http://websta.me/hot')
     content = page.read()
     splitted_content = content.split('<a href="/tag/', 100)

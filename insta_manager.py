@@ -37,3 +37,4 @@ def realtime_callback():
             reactor.process(CONFIG['client_secret'], raw_response, x_hub_signature)
         except subscriptions.SubscriptionVerifyError:
             print("Signature mismatch")
+
