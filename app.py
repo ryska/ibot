@@ -7,8 +7,8 @@ from collections import Counter
 import pynstagram
 import pic_manager
 from pic_manager import cut_image, upload
-from tag_manager import search_tag, get_nav
-# from insta_manager import realtime_callback
+from tag_manager import search_tag
+from six.moves import urllib
 from bottle import route, redirect, get, post, run, request, hook, template, SimpleTemplate, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
@@ -58,7 +58,8 @@ def home():
 
 @route('/upload')
 def on_upload():
-    upload(list)
+    upload(search_tag)
+    return template('upload.tpl', tag_lists = search_tag())
 
 
 @route('/oauth_callback')
@@ -74,11 +75,11 @@ def on_callback():
         request.session['access_token'] = access_token
     except Exception as e:
         print(e)
-    return get_nav()
+    return template('menu')
 
 @route('/tag_search')
 def on_tag_search():
-    search_tag()
+    return template('data', tag_lists=search_tag())
 
 @route('/realtime_callback')
 @post('/realtime_callback')

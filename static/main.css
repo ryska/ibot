@@ -1,5 +1,36 @@
-a{
-    padding: 15px;
-    color: #000;
-    text-decoration: none;
+.container{
+    text-align: center;
 }
+.start-btn{
+    margin-top: 50px;
+}
+.brand-logo{
+    margin-left: 20px;
+}
+.container p{
+    font-weight: 600;
+}
+.hashtag-list li{
+    display: inline;
+    font-style: italic;
+}
+.upload-container h4{
+    padding: 40px;
+}
+.upload-container p{
+    padding-bottom: 40px;
+}
+.menu-container p{
+    padding: 40px;
+}
+.data-container p{
+    padding: 40px;
+}
+/*.container a{*/
+    /*padding: 15px;*/
+    /*color: pink;*/
+    /*text-decoration: none;*/
+    /*border: 2px solid #000;*/
+    /*position: absolute;*/
+    /*top:50%;*/
+/*}*/
