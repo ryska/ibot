@@ -1,4 +1,4 @@
-from instagram import client, subscriptions
+from instagram import client
 
 CONFIG = {
     'client_id': '7da4a6bf233f41ccb5f3e9a444217951',
