@@ -1,10 +1,13 @@
 import urllib
 import pynstagram
+import ssl
 from PIL import Image
+
 
 def upload(search_tag):
     list = search_tag()
-    urllib.urlretrieve("https://source.unsplash.com/category/buildings/1400x1200", "pic1.jpg")
+    context = ssl._create_unverified_context()
+    urllib.urlretrieve("https://source.unsplash.com/category/buildings/1400x1200", "pic1.jpg", context=context)
     cut_image()
     with pynstagram.client('urbanshot__', 'kluza1') as client:
         tags = ''

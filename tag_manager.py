@@ -1,8 +1,10 @@
-from six.moves import urllib
+#from six.moves import urllib
+import urllib2
 
 
 def search_tag():
-    page = urllib.request.urlopen('http://websta.me/hot')
+    #page = urllib.request.urlopen('http://websta.me/hot')
+    page = urllib2.urlopen('http://websta.me/hot')
     content = page.read()
     splitted_content = content.split('<a href="/tag/', 100)
     tag_lists = []
