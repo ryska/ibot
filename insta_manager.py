@@ -1,6 +1,19 @@
 from instagram import client
 from config import CONFIG
 from bottle import request
+import requests
+
+def get_self_id():
+    access_token = request.session['access_token']
+    if not access_token:
+        return 'Missing Access Token'
+    try:
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
+        id = api.user().__getattribute__('id')
+    except Exception as e:
+        print(e)
+    return id
+
 
 def get_media_count():
     access_token = request.session['access_token']
@@ -81,3 +94,15 @@ def get_user_follows_count(user_id):
     except Exception as e:
         print(e)
     return splitted_response3[0]
+
+def follow_user():
+    access_token = request.session['access_token']
+    if not access_token:
+        return 'Missing Access Token'
+    api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
+    payload = {"ACCESS_TOKEN": access_token, "action": "follow"}
+    r = requests.post( r'https://api.instagram.com/v1/users/' + str(249110093) + '/relationship?access_token='+access_token, data=payload)
+    print r.text
+        #2120816809
+
+

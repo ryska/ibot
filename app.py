@@ -8,7 +8,7 @@ import pynstagram
 import pic_manager
 from pic_manager import cut_image, upload
 from tag_manager import search_tag
-from insta_manager import get_followed_by_count, get_follows_count, get_media_count
+from insta_manager import get_followed_by_count, get_follows_count, get_media_count, follow_user
 from six.moves import urllib
 from bottle import route, redirect, get, post, run, request, hook, template, SimpleTemplate, static_file
 from instagram import client, subscriptions
@@ -72,6 +72,7 @@ def on_callback():
             return 'Could not get access token'
         api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         request.session['access_token'] = access_token
+        follow_user()
     except Exception as e:
         print(e)
     return template('menu')
@@ -79,9 +80,9 @@ def on_callback():
 @route('/tag_search')
 def on_tag_search():
     return template('data', tag_lists=search_tag(),
-                            posts= 21,#get_media_count(),
-                            following=  33,#get_follows_count(),
-                            followed= 3 #get_followed_by_count()
+                            posts= get_media_count(),
+                            following=  get_follows_count(),
+                            followed= get_followed_by_count()
                     )
 
 @route('/realtime_callback')
