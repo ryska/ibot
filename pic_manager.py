@@ -2,7 +2,6 @@ import urllib
 import pynstagram
 import ssl
 from PIL import Image
-from tag_manager import search_tag
 from database.database_manager import get_count_tag_by_category
 
 def get_default_category_tags(list):

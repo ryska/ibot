@@ -58,8 +58,8 @@ def home():
 
 @route('/upload')
 def on_upload():
-    upload("buildings")
-    return template('upload.tpl', tag_lists = search_tag())
+    tag_list = upload("buildings")
+    return template('upload.tpl', tag_lists = tag_list)
 
 
 @route('/oauth_callback')
