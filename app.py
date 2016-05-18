@@ -58,7 +58,7 @@ def home():
 
 @route('/upload')
 def on_upload():
-    upload(search_tag)
+    upload("buildings")
     return template('upload.tpl', tag_lists = search_tag())
 
 

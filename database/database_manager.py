@@ -2,17 +2,18 @@ import sqlite3;
 from webscrapper import category_split, subcategory_split, title_split, hashtags_split, read_content
 
 con = sqlite3.connect('tag_database.db')
+#con.row_factory = lambda cursor, row: row[0]
 con.text_factory = str
 con.row_factory = sqlite3.Row
 cur = con.cursor()
 
-# nie odpalać
+# nie odpalac
 #usuwa tabele
 def delete_tags_table():
     cur.execute("DROP TABLE IF EXISTS Tags;")
     con.commit()
 
-# nie odpalać, chociaż można bo wywali bląd
+# nie odpalac, chociaz mozna bo wywali blad
 #tworzy tabele tagow
 def create_tags_table():
     delete_tags_table()
@@ -31,20 +32,22 @@ def insert_value(tag, category):
 
 #zwraca liste tagow z zadanej kategorii
 def get_tag_by_category(category):
-    cur.execute("select tag from Tags where category=?",(category,))
-    return cur.fetchall()
+    cur.execute("select tag from Tags where category=? ORDER BY random()",(category,))
+    ar = [str(item[0]) for item in cur.fetchall()]
+    return ar
 
 #zwraca liste tagow o zadanej dlugosci i zadanej kategorii
 def get_count_tag_by_category(category, count):
-    cur.execute("select tag from Tags where category=? limit ?",(category,count,))
-    return cur.fetchall()
+    cur.execute("select tag from Tags where category=? ORDER BY random() limit ?",(category,count))
+    ar = [str(item[0]) for item in cur.fetchall()]
+    return ar
 
 #wyswietla tabele
 def show_database():
     cur.execute("select * from tags")
-    return cur.fetchall()
+    print(cur.fetchall())
 
-#nie odpalać :D
+#nie odpalac :D
 #wypelnia baze danych naszymi danymi
 def fill_database():
     categories = category_split(read_content())
@@ -53,3 +56,4 @@ def fill_database():
             category = title_split(sub)
             for tag in hashtags_split(sub):
                 insert_value(tag,category)
+
