@@ -1,23 +1,11 @@
-#import web
 import bottle
 import beaker.middleware
-import urllib
-import requests
-from collections import Counter
-import pynstagram
-import pic_manager
-from pic_manager import cut_image, upload
-from tag_manager import search_tag
+from pic_manager import upload
 from insta_manager import get_followed_by_count, get_follows_count, get_media_count, InstaManager
-#from six.moves import urllib
-from bottle import route, redirect, get, post, run, request, hook, template, SimpleTemplate, static_file
+from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
 import json
-from PIL import Image
-import sys
-import os
-
 
 
 bottle.debug(True)
@@ -96,7 +84,7 @@ def on_tag_search():
     bot.comment(bot.media_by_tag[0]['id'], 'Nieziemskie FTW!')
     bot.logout()
 
-    return template('data', tag_lists=search_tag(),
+    return template('data',
                             posts= get_media_count(),
                             following=  get_follows_count(),
                             followed= get_followed_by_count()

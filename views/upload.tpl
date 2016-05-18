@@ -13,7 +13,7 @@
     <p>Check it <a href="http://instagram.com/urbanshot__">here!</a></p>
     <p>We used most popular Instagram hashtags: </p>
     <ul class="hashtag-list">
-      % for i in range(15):
+      % for i in range(30):
         <li>#{{tag_lists[i]}},</li>
       % end
     </ul>
