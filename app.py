@@ -2,10 +2,11 @@ import bottle
 import beaker.middleware
 from pic_manager import upload
 from insta_manager import get_followed_by_count, get_follows_count, get_media_count, InstaManager
+from user_info_manager import UserInfo
 from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
-import json
+import time
 
 
 bottle.debug(True)
@@ -42,8 +43,6 @@ def home():
         print(e)
 
 
-
-
 @route('/upload')
 def on_upload():
     tag_list = upload("buildings")
@@ -65,24 +64,31 @@ def on_callback():
         print(e)
     return template('menu')
 
+
 @route('/tag_search')
 def on_tag_search():
-
     bot = InstaManager(
-                    login="urbanshot__",
-                    password="kluza1",
-                    tag_list=['NieziemskieKaty', 'cute', 'sweet'],
-                    log_mod=0)
-    bot.get_media_id_by_tag(bot.tag_list[0])
-    print ''
-    print json.dumps(bot.media_by_tag, indent=2, sort_keys=True)
-    print ''
-    bot.like(bot.media_by_tag[0]['id'])
-    bot.unlike(bot.media_by_tag[0]['id'])
-    bot.follow(bot.media_by_tag[0]['owner']['id'])
-    bot.unfollow(bot.media_by_tag[0]['owner']['id'])
-    bot.comment(bot.media_by_tag[0]['id'], 'Nieziemskie FTW!')
-    bot.logout()
+        login="urbanshot__",
+        password="kluza1",
+        tag_list=['NieziemskieKaty', 'cute', 'sweet'],
+        log_mod=0)
+
+    ui_manager = UserInfo()
+    ui_manager.followed_by_count = int(get_followed_by_count())
+
+    time.sleep(30)
+
+    followed_by_count = int(get_followed_by_count())
+    print 'Followed by before: %d' % ui_manager.followed_by_count
+    print 'Followed by after: %d' % followed_by_count
+
+    if followed_by_count > ui_manager.followed_by_count:
+        difference = followed_by_count - ui_manager.followed_by_count
+        ui_manager.get_followed_by()
+        while difference > 0:
+            bot.follow(ui_manager.followed_by[difference-1]['id'])
+            bot.unfollow(ui_manager.followed_by[difference - 1]['id'])
+            difference -= 1
 
     return template('data',
                             posts= get_media_count(),
