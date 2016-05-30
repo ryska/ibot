@@ -9,6 +9,9 @@ import json
 
 class InstaManager:
 
+    media_count = 0
+    followed_count = 0
+    follows_count = 0
     url = 'https://www.instagram.com/'
     url_tag = 'https://www.instagram.com/explore/tags/'
     url_likes = 'https://www.instagram.com/web/likes/%s/like/'
@@ -93,6 +96,7 @@ class InstaManager:
                      (now_time.strftime("%d.%m.%Y %H:%M"))
         self.write_log(log_string)
         self.login()
+        self.set_media_count()
 
         #signal.signal(signal.SIGTERM, self.cleanup)
         #atexit.register(self.cleanup)
@@ -288,18 +292,18 @@ class InstaManager:
                 except UnicodeEncodeError:
                     print("Your text has unicode problem!")
 
-def get_media_count():
-    access_token = request.session['access_token']
-    if not access_token:
-        return 'Missing Access Token'
-    try:
-        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
-        user_count = api.user().__getattribute__('counts')
-        splitted_response = str(user_count).split(", 'followed_by': ", 1)
-        splitted_response2 = splitted_response[0].split("{'media': ", 1)
-    except Exception as e:
-        print(e)
-    return splitted_response2[1]
+    def set_media_count(self):
+        access_token = request.session['access_token']
+        if not access_token:
+            return 'Missing Access Token'
+        try:
+            api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
+            user_count = api.user().__getattribute__('counts')
+            splitted_response = str(user_count).split(", 'followed_by': ", 1)
+            splitted_response2 = splitted_response[0].split("{'media': ", 1)
+        except Exception as e:
+            print(e)
+        self.media_count = splitted_response2[1]
 
 
 def get_followed_by_count():

@@ -1,7 +1,7 @@
 import bottle
 import beaker.middleware
 from pic_manager import upload
-from insta_manager import get_followed_by_count, get_follows_count, get_media_count, InstaManager
+from insta_manager import get_followed_by_count, get_follows_count, InstaManager
 from user_info_manager import UserInfo
 from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
@@ -65,13 +65,32 @@ def on_callback():
     return template('menu')
 
 
+
 @route('/tag_search')
 def on_tag_search():
+    access_token = request.session['access_token']
+    api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
+
     bot = InstaManager(
         login="urbanshot__",
         password="kluza1",
         tag_list=['NieziemskieKaty', 'cute', 'sweet'],
         log_mod=0)
+
+    if (int(bot.media_count) % 20) > 0:
+        counter = (int(bot.media_count) / 20)
+    else:
+        counter = (int(bot.media_count) / 20) - 1
+
+    media_id_before = api.user_recent_media(user_id="self")[0]
+    media = []
+    for i in media_id_before:
+        media_id = str(i)
+        media.append(media_id[7:])
+    print(media)
+
+    api.media_likes(media[1])
+
 
     ui_manager = UserInfo()
     ui_manager.followed_by_count = int(get_followed_by_count())
@@ -91,7 +110,7 @@ def on_tag_search():
             difference -= 1
 
     return template('data',
-                            posts= get_media_count(),
+                            posts= bot.media_count,
                             following=  get_follows_count(),
                             followed= get_followed_by_count()
                     )
