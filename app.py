@@ -6,7 +6,23 @@ from user_info_manager import UserInfo
 from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
-import time
+import threading
+
+
+class MyThread(object):
+    def __init__(self, login, password, tag_list, log_mod):
+        thread = threading.Thread(target=self.run, args=(login, password, tag_list, log_mod))
+        thread.daemon = True
+        thread.start()
+
+    def run(self, login, password, tag_list, log_mod):
+        bot = InstaManager(
+            login,
+            password,
+            tag_list,
+            log_mod)
+
+        bot.auto_mod()
 
 
 bottle.debug(True)
@@ -67,12 +83,9 @@ def on_callback():
 
 @route('/tag_search')
 def on_tag_search():
-    bot = InstaManager(
-        login="urbanshot__",
-        password="kluza1",
-        tag_list=['NieziemskieKaty', 'cute', 'sweet'],
-        log_mod=0)
+    thread = MyThread("urbanshot__", "kluza1", ['NieziemskieKaty', 'cute', 'sweet'], 0)
 
+    """
     ui_manager = UserInfo()
     ui_manager.followed_by_count = int(get_followed_by_count())
 
@@ -89,6 +102,7 @@ def on_tag_search():
             bot.follow(ui_manager.followed_by[difference-1]['id'])
             bot.unfollow(ui_manager.followed_by[difference - 1]['id'])
             difference -= 1
+    """
 
     return template('data',
                             posts= get_media_count(),
