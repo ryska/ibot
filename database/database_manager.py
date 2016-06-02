@@ -15,19 +15,19 @@ def delete_tags_table():
 
 # nie odpalac, chociaz mozna bo wywali blad
 #tworzy tabele tagow
-def create_tags_table():
-    delete_tags_table()
+def create_tags_tables():
     cur.execute("""
          CREATE TABLE IF NOT EXISTS Tags (
         tag varchar(50) NOT NULL,
-        category varchar(250) NOT NULL
+        category varchar(50) NOT NULL,
+        PRIMARY KEY (tag,category)
         )""")
     con.commit()
 
 #wstawia wiersz do tabeli
 def insert_value(tag, category):
     cur.execute(
-        "INSERT INTO Tags (tag, category) VALUES (?,?)",(tag,category,))
+        "INSERT OR IGNORE INTO Tags (tag, category) VALUES (?,?)",(tag,category,))
     con.commit()
 
 #zwraca liste tagow z zadanej kategorii
@@ -42,10 +42,12 @@ def get_count_tag_by_category(category, count):
     ar = [str(item[0]) for item in cur.fetchall()]
     return ar
 
-#wyswietla tabele
-def show_database():
-    cur.execute("select * from tags")
-    print(cur.fetchall())
+#zwraca liste kategorii
+def get_categories():
+    cur.execute("select distinct category from Tags ")
+    ar = [str(item[0]) for item in cur.fetchall()]
+    return ar
+
 
 #nie odpalac :D
 #wypelnia baze danych naszymi danymi
@@ -56,4 +58,3 @@ def fill_database():
             category = title_split(sub)
             for tag in hashtags_split(sub):
                 insert_value(tag,category)
-
