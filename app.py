@@ -7,6 +7,8 @@ from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
 import threading
+import time
+
 
 
 class MyThread(object):
@@ -85,7 +87,7 @@ def on_callback():
 def on_tag_search():
     thread = MyThread("urbanshot__", "kluza1", ['NieziemskieKaty', 'cute', 'sweet'], 0)
 
-    """
+
     ui_manager = UserInfo()
     ui_manager.followed_by_count = int(get_followed_by_count())
 
@@ -102,7 +104,7 @@ def on_tag_search():
             bot.follow(ui_manager.followed_by[difference-1]['id'])
             bot.unfollow(ui_manager.followed_by[difference - 1]['id'])
             difference -= 1
-    """
+
 
     return template('data',
                             posts= get_media_count(),
@@ -128,6 +130,5 @@ def on_realtime_callback():
             reactor.process(CONFIG['client_secret'], raw_response, x_hub_signature)
         except subscriptions.SubscriptionVerifyError:
             print("Signature mismatch")
-
 
 bottle.run(app=app, host='localhost', port=8515, reloader=True)
