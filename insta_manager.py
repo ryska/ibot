@@ -5,6 +5,7 @@ import requests
 import datetime
 import logging
 import json
+import time
 
 
 class InstaManager:
@@ -262,6 +263,13 @@ class InstaManager:
         else:
             self.write_log("Login status error")
         return False
+
+    def auto_mod(self):
+        print 'I\'m running in other thread!'
+
+        time.sleep(30)
+
+        print 'Okay, I\'m done now, goodbye.'
 
     def write_log(self, log_text):
         """ Write log by print() or logger """
