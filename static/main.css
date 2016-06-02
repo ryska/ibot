@@ -1,3 +1,7 @@
+body{
+  background-color: white;
+}
+
 .container{
     text-align: center;
 }
@@ -34,6 +38,15 @@
 .data-sections table{
     width: 400px;
     margin-left: 20px;
+}
+.navigation{
+  background-color: #0097A7;
+}
+.btn-large.start{
+  background-color: #FF4081;
+}
+.btn-large.start:hover {
+  background-color: #FFCDD2;
 }
 /*.container a{*/
     /*padding: 15px;*/
