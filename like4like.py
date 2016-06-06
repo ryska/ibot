@@ -42,7 +42,7 @@ class Like4Like:
     def get_list_of_users_who_liked_media(self, media):
         users_lists = []
         for i in range(media.__len__()):
-            url = self.api_media_likes % (media[i], access_token)
+            url = self.api_media_likes % (media[i], self.access_token)
             response = urllib2.urlopen(url).read()
             json_response = json.loads(response)
             if json_response["data"]:
@@ -50,3 +50,5 @@ class Like4Like:
                     if i["id"] not in users_lists:
                         users_lists.append(i["id"])
         return users_lists
+
+

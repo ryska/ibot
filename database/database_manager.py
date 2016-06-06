@@ -4,7 +4,7 @@ from webscrapper import category_split, subcategory_split, title_split, hashtags
 
 class DatabaseManager:
 
-    # inicjalizuje połączenie z tabelą
+    # inicjalizuje polaczenie z tabela
     def __init__(self):
         self.con = sqlite3.connect('tag_database.db')
         self.con.text_factory = str
@@ -16,7 +16,7 @@ class DatabaseManager:
         self.cur.execute("DROP TABLE IF EXISTS Tags;")
         self.con.commit()
 
-    # tworzy tabele jeśli nie istnieje
+    # tworzy tabele jesli nie istnieje
     def create_tags_tables(self):
         self.cur.execute("""
           CREATE TABLE IF NOT EXISTS Tags (

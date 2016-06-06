@@ -1,8 +1,7 @@
 from instagram import client
 from config import CONFIG
 from bottle import request
-from pic_manager import upload
-from user_info_manager import UserInfo
+from pic_manager import PicManager
 import requests
 import datetime
 import logging
@@ -99,6 +98,7 @@ class InstaManager:
         self.write_log(log_string)
         self.login()
 
+        self.pic_manager = PicManager()
         #signal.signal(signal.SIGTERM, self.cleanup)
         #atexit.register(self.cleanup)
 
@@ -268,7 +268,7 @@ class InstaManager:
         #ui_manager = UserInfo(self.user_id)
 
         self.write_log("Posting photo with tags from given category...")
-        upload(self.tag_list)
+        self.pic_manager.upload(self.tag_list)
 
         # szuka tylko po dwoch pierwszych tagach z tag_list. Do zmiany pozniej.
         for tag in self.tag_list[:2]:
