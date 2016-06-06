@@ -1,6 +1,3 @@
-from instagram import client
-from config import CONFIG
-from bottle import request
 from pic_manager import PicManager
 import requests
 import datetime
@@ -33,77 +30,39 @@ class InstaManager:
     media_by_tag = 0
     login_status = False
 
-    def __init__(self, login, password, user_id,
-                 #like_per_day=1000,
-                 #media_max_like=10,
-                 #media_min_like=0,
-                 #follow_per_day=0,
-                 #follow_time=5 * 60 * 60,
-                 #unfollow_per_day=0,
-                 #comments_per_day=0,
-                 tag_list=['polishgirl', 'cute'],
-                 #max_like_for_one_tag=5,
-                 log_mod=0):
-
-        #self.time_in_day = 24 * 60 * 60
-
-        # Like
-        #self.like_per_day = like_per_day
-        #if self.like_per_day != 0:
-        #    self.like_delay = self.time_in_day / self.like_per_day
-
-        # Follow
-        #self.follow_time = follow_time
-        #self.follow_per_day = follow_per_day
-        #if self.follow_per_day != 0:
-        #    self.follow_delay = self.time_in_day / self.follow_per_day
-
-        # Unfollow
-        #self.unfollow_per_day = unfollow_per_day
-        #if self.unfollow_per_day != 0:
-        #    self.unfollow_delay = self.time_in_day / self.unfollow_per_day
-
-        # Comment
-        #self.comments_per_day = comments_per_day
-        #if self.comments_per_day != 0:
-        #    self.comments_delay = self.time_in_day / self.comments_per_day
-
-        # Don't like if media have more than n likes.
-        #self.media_max_like = media_max_like
-
-        # Don't like if media have less than n likes.
-        #self.media_min_like = media_min_like
-
-        # Auto mod seting:
-        # Default list of tag.
-        self.tag_list = tag_list
-        # Get random tag, from tag_list, and like (1 to n) times.
-        #self.max_like_for_one_tag = max_like_for_one_tag
-        self.user_id = user_id
-        self.followed_by_count = 0
+    def __init__(self, login, password,
+                 user_id,
+                 tag_list,
+                 log_mod = 0):
 
         # log_mod 0 to console, 1 to file
         self.log_mod = log_mod
 
         self.s = requests.Session()
-        # convert login to lower
         self.user_login = login.lower()
         self.user_password = password
 
+        self.tag_list = tag_list
+        self.user_id = user_id
+
         self.media_by_tag = []
 
+        self.like_counter = 0
+        self.unlike_counter = 0
+        self.follow_counter = 0
+        self.unfollow_counter = 0
+        self.comments_counter = 0
+
         now_time = datetime.datetime.now()
-        log_string = 'Insta Bot v1.0 start at %s:' % \
+        log_string = 'Starting at %s:' % \
                      (now_time.strftime("%d.%m.%Y %H:%M"))
         self.write_log(log_string)
         self.login()
 
         self.pic_manager = PicManager()
-        #signal.signal(signal.SIGTERM, self.cleanup)
-        #atexit.register(self.cleanup)
 
     def login(self):
-            log_string = 'Try to login by %s...' % (self.user_login)
+            log_string = 'Try to login by %s...' % self.user_login
             self.write_log(log_string)
             self.s.cookies.update({'sessionid': '', 'mid': '', 'ig_pr': '1',
                                    'ig_vw': '1920', 'csrftoken': '',
@@ -122,19 +81,17 @@ class InstaManager:
                                    'X-Requested-With': 'XMLHttpRequest'})
             r = self.s.get(self.url)
             self.s.headers.update({'X-CSRFToken': r.cookies['csrftoken']})
-            #time.sleep(5 * random.random())
             login = self.s.post(self.url_login, data=self.login_post,
                                 allow_redirects=True)
             self.s.headers.update({'X-CSRFToken': login.cookies['csrftoken']})
             self.csrftoken = login.cookies['csrftoken']
-            #time.sleep(5 * random.random())
 
             if login.status_code == 200:
                 r = self.s.get('https://www.instagram.com/')
                 finder = r.text.find(self.user_login)
                 if finder != -1:
                     self.login_status = True
-                    log_string = 'Look like login by %s success!' % (self.user_login)
+                    log_string = 'Look like login by %s succeedded!' % self.user_login
                     self.write_log(log_string)
                 else:
                     self.login_status = False
@@ -143,25 +100,23 @@ class InstaManager:
                 self.write_log('Login error! Connection error!')
 
     def logout(self):
-        now_time = datetime.datetime.now()
-        #log_string = 'Logout: likes - %i, follow - %i, unfollow - %i, comments - %i.' % \
-        #             (self.like_counter, self.follow_counter,
-        #              self.unfollow_counter, self.comments_counter)
-        #self.write_log(log_string)
+        log_string = 'Logout: likes - %i, follow - %i, unfollow - %i, comments - %i.' % \
+                     (self.like_counter, self.follow_counter,
+                      self.unfollow_counter, self.comments_counter)
+        self.write_log(log_string)
 
         try:
             logout_post = {'csrfmiddlewaretoken': self.csrftoken}
             logout = self.s.post(self.url_logout, data=logout_post)
-            self.write_log("Logout success!")
+            self.write_log("Logged out!")
             self.login_status = False
         except:
             self.write_log("Logout error!")
 
+    # wyszukiwanie id mediow pasujacych do podanego taga
     def get_media_id_by_tag(self, tag):
-        """ Get media ID set, by your hashtag """
-
-        if (self.login_status):
-            log_string = "Get media id by tag: %s" % (tag)
+        if self.login_status:
+            log_string = "Get media id by tag: %s" % tag
             self.write_log(log_string)
             if self.login_status == 1:
                 url_tag = '%s%s%s' % (self.url_tag, tag, '/')
@@ -186,80 +141,75 @@ class InstaManager:
                     self.write_log("Found %d posts." % len(self.media_by_tag))
                 except:
                     self.media_by_tag = []
-                    self.write_log("Except on get_media!")
-                    #time.sleep(60)
+                    self.write_log("Except while getting media by tag %s!" % tag)
             else:
                 return 0
 
     def like(self, media_id):
-        """ Send http request to like media by ID """
-        if (self.login_status):
-            url_likes = self.url_likes % (media_id)
+        if self.login_status:
+            url_likes = self.url_likes % media_id
             try:
                 like = self.s.post(url_likes)
-                # last_liked_media_id = media_id
+                self.like_counter += 1
                 self.write_log("Liked media with id: %s" % media_id)
             except:
-                self.write_log("Except on like!")
+                self.write_log("Except while liking media with id: %s" % media_id)
                 like = 0
             return like
 
     def unlike(self, media_id):
-        """ Send http request to unlike media by ID """
-        if (self.login_status):
-            url_unlike = self.url_unlike % (media_id)
+        if self.login_status:
+            url_unlike = self.url_unlike % media_id
             try:
                 unlike = self.s.post(url_unlike)
+                self.unlike_counter += 1
                 self.write_log("Unliked media with id: %s" % media_id)
             except:
-                self.write_log("Except on unlike!")
+                self.write_log("Except while unliking media with id: %s" % media_id)
                 unlike = 0
             return unlike
 
     def follow(self, user_id):
-        """ Send http request to follow """
-        if (self.login_status):
-            url_follow = self.url_follow % (user_id)
+        if self.login_status:
+            url_follow = self.url_follow % user_id
             try:
                 follow = self.s.post(url_follow)
                 if follow.status_code == 200:
-                    #self.follow_counter += 1
-                    log_string = "Followed user with id: %s." % (user_id)
+                    self.follow_counter += 1
+                    log_string = "Followed user with id: %s." % user_id
                     self.write_log(log_string)
                 return follow
             except:
-                self.write_log("Except on follow!")
+                self.write_log("Except while following user with id: %s." % user_id)
         return False
 
     def unfollow(self, user_id):
-        """ Send http request to unfollow """
-        if (self.login_status):
-            url_unfollow = self.url_unfollow % (user_id)
+        if self.login_status:
+            url_unfollow = self.url_unfollow % user_id
             try:
                 unfollow = self.s.post(url_unfollow)
                 if unfollow.status_code == 200:
-                    #self.unfollow_counter += 1
-                    log_string = "Unfollowed user with id: %s." % (user_id)
+                    self.unfollow_counter += 1
+                    log_string = "Unfollowed user with id: %s." % user_id
                     self.write_log(log_string)
                 return unfollow
             except:
-                self.write_log("Except on unfollow!")
+                self.write_log("Except while unfollowing user with id: %s." % user_id)
         return False
 
     def comment(self, media_id, comment_text):
-        """ Send http request to comment """
-        if (self.login_status):
+        if self.login_status:
             comment_post = {'comment_text': comment_text}
-            url_comment = self.url_comment % (media_id)
+            url_comment = self.url_comment % media_id
             try:
                 comment = self.s.post(url_comment, data=comment_post)
                 if comment.status_code == 200:
-                    #self.comments_counter += 1
+                    self.comments_counter += 1
                     log_string = 'Written: "%s" under post with id: %s.' % (comment_text, media_id)
                     self.write_log(log_string)
                 return comment
             except:
-                self.write_log("Except on comment!")
+                self.write_log("Except while commenting media with id %s!" % media_id)
         else:
             self.write_log("Login status error")
         return False
@@ -294,8 +244,6 @@ class InstaManager:
         """
 
     def write_log(self, log_text):
-        """ Write log by print() or logger """
-
         if self.log_mod == 0:
             try:
                 print(log_text)
