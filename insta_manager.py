@@ -1,6 +1,8 @@
 from instagram import client
 from config import CONFIG
 from bottle import request
+from pic_manager import upload
+from user_info_manager import UserInfo
 import requests
 import datetime
 import logging
@@ -32,7 +34,7 @@ class InstaManager:
     media_by_tag = 0
     login_status = False
 
-    def __init__(self, login, password,
+    def __init__(self, login, password, user_id,
                  #like_per_day=1000,
                  #media_max_like=10,
                  #media_min_like=0,
@@ -78,6 +80,8 @@ class InstaManager:
         self.tag_list = tag_list
         # Get random tag, from tag_list, and like (1 to n) times.
         #self.max_like_for_one_tag = max_like_for_one_tag
+        self.user_id = user_id
+        self.followed_by_count = 0
 
         # log_mod 0 to console, 1 to file
         self.log_mod = log_mod
@@ -261,11 +265,33 @@ class InstaManager:
         return False
 
     def auto_mod(self):
-        print 'I\'m running in other thread!'
+        #ui_manager = UserInfo(self.user_id)
 
-        time.sleep(30)
+        self.write_log("Posting photo with tags from given category...")
+        upload(self.tag_list)
 
-        print 'Okay, I\'m done now, goodbye.'
+        # szuka tylko po dwoch pierwszych tagach z tag_list. Do zmiany pozniej.
+        for tag in self.tag_list[:2]:
+            self.write_log("Searching media with tag %s" % tag)
+            self.get_media_id_by_tag(tag)
+            for media in self.media_by_tag:
+                self.like(media['id'])
+                self.follow(media['owner']['id'])
+
+        self.write_log("Going to sleep for a minute...")
+        time.sleep(60)
+
+        # F4F - nie dziala w oddzielnym watku.
+        """
+        ui_manager.get_followed_by()
+
+        if ui_manager.followed_by.__len__() > self.followed_by_count:
+            self.write_log("I got new followers. Following back...")
+            difference = ui_manager.followed_by.__len__() - self.followed_by_count
+            while difference > 0:
+                self.follow(ui_manager.followed_by[difference - 1]['id'])
+                difference -= 1
+        """
 
     def write_log(self, log_text):
         """ Write log by print() or logger """
@@ -295,6 +321,7 @@ class InstaManager:
                     self.logger.info(log_text)
                 except UnicodeEncodeError:
                     print("Your text has unicode problem!")
+
 
 def get_media_count():
     access_token = request.session['access_token']
@@ -380,3 +407,15 @@ def get_user_follows_count(user_id):
     except Exception as e:
         print(e)
     return splitted_response3[0]
+
+
+def get_user_id():
+    access_token = request.session['access_token']
+    if not access_token:
+        return 'Missing Access Token'
+    try:
+        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
+        user_id = api.user().__getattribute__('id')
+        return user_id
+    except Exception as e:
+        print(e)

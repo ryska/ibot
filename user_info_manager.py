@@ -24,10 +24,10 @@ class UserInfo:
                      }
                }
 
-    def __init__(self, info_aggregator="ink361"):
+    def __init__(self, user_id, info_aggregator="ink361"):
         self.i_a = info_aggregator
+        self.user_id = user_id
         self.hello()
-        self.get_user_id()
         self.followed_by_count = 0
         self.followed_by = []
 
@@ -38,16 +38,6 @@ class UserInfo:
         if main.status_code == 200:
             return True
         return False
-
-    def get_user_id(self):
-        access_token = request.session['access_token']
-        if not access_token:
-            return 'Missing Access Token'
-        try:
-            api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
-            self.user_id = api.user().__getattribute__('id')
-        except Exception as e:
-            print(e)
 
     def get_followed_by(self, limit=-1):
         self.followed_by = None
@@ -74,7 +64,6 @@ class UserInfo:
                 else:
                     # end of data
                     return True
-
         return False
 
     def get_follows(self, limit=-1):

@@ -1,7 +1,7 @@
 import bottle
 import beaker.middleware
-from pic_manager import upload
-from insta_manager import get_followed_by_count, get_follows_count, get_media_count, InstaManager
+from pic_manager import upload, get_tags
+from insta_manager import get_followed_by_count, get_follows_count, get_media_count, InstaManager, get_user_id
 from user_info_manager import UserInfo
 from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
@@ -12,18 +12,19 @@ import time
 
 
 class MyThread(object):
-    def __init__(self, login, password, tag_list, log_mod):
-        thread = threading.Thread(target=self.run, args=(login, password, tag_list, log_mod))
+    def __init__(self, login, password, user_id, tag_list, log_mod):
+        thread = threading.Thread(target=self.run, args=(login, password, user_id, tag_list, log_mod))
         thread.daemon = True
         thread.start()
 
-    def run(self, login, password, tag_list, log_mod):
+    def run(self, login, password, user_id, tag_list, log_mod):
         bot = InstaManager(
             login,
             password,
             tag_list,
             log_mod)
 
+        bot.user_id = user_id
         bot.auto_mod()
 
 
@@ -85,9 +86,12 @@ def on_callback():
 
 @route('/tag_search')
 def on_tag_search():
-    thread = MyThread("urbanshot__", "kluza1", ['NieziemskieKaty', 'cute', 'sweet'], 0)
+    tag_list = get_tags('Urban', 10)
+    user_id = get_user_id()
+    thread = MyThread("urbanshot__", "kluza1", user_id, tag_list, 0)
 
-
+    # zakomentowane bo nie ma instancji bota.
+    """
     ui_manager = UserInfo()
     ui_manager.followed_by_count = int(get_followed_by_count())
 
@@ -104,6 +108,7 @@ def on_tag_search():
             bot.follow(ui_manager.followed_by[difference-1]['id'])
             bot.unfollow(ui_manager.followed_by[difference - 1]['id'])
             difference -= 1
+    """
 
 
     return template('data',

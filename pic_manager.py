@@ -11,9 +11,9 @@ def get_default_category_tags(list):
     list.extend(get_count_tag_by_category('Shoutout', 5))
     return list
 
-def get_tags(category):
+def get_tags(category, limit):
     list = []
-    list.extend(get_count_tag_by_category('Urban', 10))
+    list.extend(get_count_tag_by_category(category, limit))
     get_default_category_tags(list)
     return list
 
@@ -21,8 +21,8 @@ def urban_url():
     return "buildings"
 
 
-def upload(category):
-    list = get_tags(category)
+def upload(list):
+    #list = get_tags(category)
     context = ssl._create_unverified_context()
     #category_url = get_category_url(category)
     urllib.urlretrieve("https://source.unsplash.com/category/"+"buildings"+"/1400x1200", "pic1.jpg", context=context)
