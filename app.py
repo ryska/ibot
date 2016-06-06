@@ -1,7 +1,7 @@
 import bottle
 import beaker.middleware
 from pic_manager import PicManager
-from insta_manager import get_followed_by_count, get_follows_count, get_media_count, get_user_id
+from api_manager import ApiManager
 from bottle import route, post, request, hook, template, static_file
 from instagram import client, subscriptions
 from config import CONFIG, unauthenticated_api
@@ -16,7 +16,9 @@ session_opts = {
     'session.auto': True,
 }
 app = beaker.middleware.SessionMiddleware(bottle.app(), session_opts)
+
 pic_manager = PicManager()
+api_manager = ApiManager()
 
 @hook('before_request')
 def setup_request():
@@ -52,7 +54,6 @@ def on_callback():
         access_token, user_info = unauthenticated_api.exchange_code_for_access_token(code)
         if not access_token:
             return 'Could not get access token'
-        api = client.InstagramAPI(access_token=access_token, client_secret=CONFIG['client_secret'])
         request.session['access_token'] = access_token
     except Exception as e:
         print(e)
@@ -61,7 +62,7 @@ def on_callback():
 @route('/tag_search')
 def on_tag_search():
     tag_list = pic_manager.get_tags('Urban', 10)
-    user_id = get_user_id()
+    user_id = api_manager.get_user_id()
     thread = MyThread("urbanshot__", "kluza1", user_id, tag_list, 0)
 
     # zakomentowane bo nie ma instancji bota.
@@ -84,9 +85,10 @@ def on_tag_search():
             difference -= 1
     """
     return template('data',
-                posts=get_media_count(),
-                following=get_follows_count(),
-                followed=get_followed_by_count())
+                posts=api_manager.get_media_count(),
+                following=api_manager.get_follows_count(),
+                followed=api_manager.get_followed_by_count()
+                    )
 
 @route('/realtime_callback')
 @post('/realtime_callback')
@@ -108,3 +110,5 @@ def on_realtime_callback():
             print("Signature mismatch")
 
 bottle.run(app=app, host='localhost', port=8515, reloader=True)
+pic_manager.start()
+api_manager.start()
