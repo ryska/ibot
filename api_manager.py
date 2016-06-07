@@ -154,7 +154,7 @@ class ApiManager:
             response = urllib2.urlopen(url).read()
             json_response = json.loads(response)
             for i in json_response["items"]:
-                user_media.append(i["caption"]["id"])
+                user_media.append(i["id"])
         except:
             print "Exception while getting %s's media!" % username
 
