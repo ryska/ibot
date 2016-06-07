@@ -31,14 +31,16 @@ def process_tag_update(update):
 def server_static(filepath):
     return static_file(filepath, root='./static')
 
+
 @route('/')
 def home():
     try:
         url = unauthenticated_api.get_authorize_url(
             scope=["public_content", "comments", "likes", "follower_list", "basic", "relationships"])
-        return template('index', url=url)
+        return template('index.tpl', url=url)
     except Exception as e:
         print(e)
+
 
 @route('/upload')
 def on_upload():
@@ -55,7 +57,6 @@ def on_callback():
         if not access_token:
             return 'Could not get access token'
         request.session['access_token'] = access_token
-        pic_manager.start()
         api_manager.start()
     except Exception as e:
         print(e)

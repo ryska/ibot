@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="col m12">
                             <p class="right-align">
-                                <!-- <a class="waves-effect waves-light btn-large start-btn start" href="{{url}}">Let's start!</a> -->
+                              <a class="waves-effect waves-light btn-large start-btn start" href="{{url}}">Let's start!</a>
                                 <button class="btn btn-large waves-effect waves-light" id="loginButton" type="button" name="action">Login</button>
                             </p>
                         </div>
