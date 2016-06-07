@@ -9,6 +9,7 @@ class ApiManager:
     def __init__(self):
         self.api_media_likes = "https://api.instagram.com/v1/media/%s/likes?access_token=%s"
         self.api_recent_media = "https://api.instagram.com/v1/users/self/media/recent/?access_token=%s"
+        self.api_user_media = "https://www.instagram.com/%s/media/"
 
 
     # wywolanie po rozpoczeciu aplikacji
@@ -41,7 +42,7 @@ class ApiManager:
 
     # util
     def how_many(self):
-        tmp = self.media_count - 20
+        tmp = int(self.media_count) - 20
         how_many = tmp / 20
         if ((tmp % 20) > 0):
             how_many = how_many + 1
@@ -55,9 +56,10 @@ class ApiManager:
             response = urllib2.urlopen(url).read()
             json_response = json.loads(response)
             if json_response["data"]:
-                for i in json_response["data"]:
-                    if i["id"] not in users_lists:
-                        users_lists.append(i["id"])
+                # tutaj zmienilem na j bo bylo i tak jak w poprzednim for.
+                for j in json_response["data"]:
+                    if j["id"] not in users_lists:
+                        users_lists.append(j["id"])
         return users_lists
 
     # zwraca nasze id
@@ -144,4 +146,17 @@ class ApiManager:
             print(e)
         return splitted_response3[0]
 
+    # zwraca liste 20 ostatnich mediow uzytkownika o podanym username.
+    def get_user_media(self, username):
+        user_media = []
+        try:
+            url = self.api_user_media % username
+            response = urllib2.urlopen(url).read()
+            json_response = json.loads(response)
+            for i in json_response["items"]:
+                user_media.append(i["caption"]["id"])
+        except:
+            print "Exception while getting %s's media!" % username
+
+        return user_media
 
