@@ -1,9 +1,9 @@
-
-  $(document).ready(function() {
-    $('select').material_select();
-
-
-  });
+  // 
+  // $(document).ready(function() {
+  //   $('select').material_select();
+  //
+  //
+  // });
   $('#loginButton').on('click',function(){
     var login = $('#login').val();
     var password = $('#pass').val();
