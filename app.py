@@ -1,5 +1,6 @@
 import bottle
 import beaker.middleware
+import os
 from pic_manager import PicManager
 from api_manager import ApiManager
 from bottle import route, post, request, hook, template, static_file
@@ -113,5 +114,6 @@ def on_realtime_callback():
             print("Signature mismatch")
 
 
+port = int(os.environ.get('PORT', 5000))
 
-bottle.run(app=app, host='localhost', port=8515, reloader=True)
+bottle.run(app=app, host='localhost', port=port, reloader=True)
